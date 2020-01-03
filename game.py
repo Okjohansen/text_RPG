@@ -43,7 +43,7 @@ def title_screen_selection():
 
 
 def title_screen():
-    os.system('cls')
+    os.system('clear')
     print('############################')
     print('# Welcome to the Text RPG! #')
     print('############################')
@@ -70,15 +70,15 @@ def help_menu():
 #### MAP ####
 """
 a1 a2.. #PLAYER STARTS AT B2
--------------
-|  |  |  |  |  a4
--------------
-|  |  |  |  |  b4 ..
--------------
-|  |  |  |  |
--------------
-|  |  |  |  |
--------------
+-----------------
+|   |   |   |   |  a4
+-----------------
+| x |   |   |   |  b4 ..
+-----------------
+|   |   |   |   |
+-----------------
+|   |   | x | x |
+-----------------
 """
 
 ZONENAME = '',
@@ -94,6 +94,7 @@ solved_places = {'a1': False, 'a2': False, 'a3': False, 'a4': False,
                  'b1': False, 'b2': False, 'b3': False, 'b4': False,
                  'c1': False, 'c2': False, 'c3': False, 'c4': False,
                  'd1': False, 'd2': False, 'd3': False, 'd4': False}
+
 zonemap = {
     'a1': {
         ZONENAME: 'Town Market',
@@ -136,18 +137,18 @@ zonemap = {
         RIGHT: '',
     },
     'b1': {
-        ZONENAME: 'Forrest',
-        DESCRIPTION: 'description',
-        EXAMINATION: 'examine',
+        ZONENAME: 'Inaccessible',
+        DESCRIPTION: '',
+        EXAMINATION: '',
         SOLVED: False,
         UP: 'a1',
         DOWN: 'c1',
-        LEFT: '',
+        LEFT: 'b1',
         RIGHT: 'b2',
     },
     'b2': {
         ZONENAME: 'Home',
-        DESCRIPTION: 'This is your home!',
+        DESCRIPTION: 'This is your home!\nYou grew up here,',
         EXAMINATION: 'Your home looks the same - nothing has changed.',
         SOLVED: False,
         UP: 'a2',
@@ -174,16 +175,97 @@ zonemap = {
         DOWN: 'c4',
         LEFT: 'b3',
         RIGHT: '',
+    },
+    'c1': {
+        ZONENAME: 'Forrest',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a1',
+        DOWN: 'c1',
+        LEFT: '',
+        RIGHT: 'b2',
+    },
+    'c2': {
+        ZONENAME: 'Home',
+        DESCRIPTION: 'This is your home!\nYou grew up here,',
+        EXAMINATION: 'Your home looks the same - nothing has changed.',
+        SOLVED: False,
+        UP: 'a2',
+        DOWN: 'c2',
+        LEFT: 'b1',
+        RIGHT: 'b3',
+    },
+    'c3': {
+        ZONENAME: 'Dark Forrest',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a3',
+        DOWN: 'c3',
+        LEFT: 'b2',
+        RIGHT: 'b4',
+    },
+    'c4': {
+        ZONENAME: 'Swamps',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a4',
+        DOWN: 'c4',
+        LEFT: 'b3',
+        RIGHT: '',
+    },
+    'd1': {
+        ZONENAME: 'Forrest',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a1',
+        DOWN: 'c1',
+        LEFT: '',
+        RIGHT: 'b2',
+    },
+    'd2': {
+        ZONENAME: 'Home',
+        DESCRIPTION: 'This is your home!\nYou grew up here,',
+        EXAMINATION: 'Your home looks the same - nothing has changed.',
+        SOLVED: False,
+        UP: 'a2',
+        DOWN: 'c2',
+        LEFT: 'b1',
+        RIGHT: 'b3',
+    },
+    'd3': {
+        ZONENAME: 'Inaccessible',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a3',
+        DOWN: 'c3',
+        LEFT: 'b2',
+        RIGHT: 'b4',
+    },
+    'd4': {
+        ZONENAME: 'Inaccessible',
+        DESCRIPTION: 'description',
+        EXAMINATION: 'examine',
+        SOLVED: False,
+        UP: 'a4',
+        DOWN: 'c4',
+        LEFT: 'b3',
+        RIGHT: '',
     }
+
 }
 
 
 #### GAME INTERACTIVITY ####
 def print_location():
-    print('\n' + ('#' * (4 + len(myPlayer.location))))
-    print('# ' + myPlayer.location.upper() + ' #')
+    print('\n' + ('#' * (10 + len(myPlayer.location))))
+    print('# ' + zonemap[myPlayer.location][ZONENAME] + ' #')
     print('# ' + zonemap[myPlayer.location][DESCRIPTION] + ' #')
-    print('\n' + ('#' * (4 + len(myPlayer.location))))
+    print('\n' + ('#' * (10 + len(myPlayer.location))))
 
 
 def prompt():
@@ -198,6 +280,8 @@ def prompt():
         sys.exit()
     elif action.lower() in ["move", "go", "travel", "walk"]:
         player_move(action.lower())
+    elif action.lower() in ["examine", "inspect", "look"]:
+        player_examine(action.lower())
     elif action.lower() in ["examine", "inspect", "look"]:
         player_examine(action.lower())
 
@@ -225,21 +309,21 @@ def movement_handler(destination):
 
 def player_examine(action):
     if zonemap[myPlayer.location][SOLVED]:
-        print("You have already exhausted the zone")
+        print("There's no puzzle here")
     else:
-        print("you can trigger puzzle here!")
+        print("There is a puzzle here!")
 
 
 #### GAME FUNCTIONALITY ####
 
 def main_game_loop():
-    if myPlayer.game_over == False:
+    while myPlayer.game_over == False:
         prompt()
         # here handle if puzzles has been solved, boss defeted, explored etc.
 
 
 def setup_game():
-    os.system('cls')
+    os.system('clear')
 
     #### NAME COLLECTING
     question1 = "Hello, what's your name?\n"
@@ -307,7 +391,7 @@ def setup_game():
         sys.stdout.flush()
         time.sleep(0.00)
 
-    os.system('cls')
+    os.system('clear')
     print("####################")
     print("# Let's start now! #")
     print("####################")
