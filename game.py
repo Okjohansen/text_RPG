@@ -98,8 +98,8 @@ solved_places = {'a1': False, 'a2': False, 'a3': False, 'a4': False,
 zonemap = {
     'a1': {
         ZONENAME: 'Town Market',
-        DESCRIPTION: 'You can see people selling various goods',
-        EXAMINATION: 'It smells like fish',
+        DESCRIPTION: "This is the town's marketplace.",
+        EXAMINATION: 'It smells like fish.',
         SOLVED: False,
         UP: '',
         DOWN: 'b1',
@@ -108,7 +108,7 @@ zonemap = {
     },
     'a2': {
         ZONENAME: 'Settlement',
-        DESCRIPTION: 'You see houses, I guess people live here',
+        DESCRIPTION: "This is the town's settlement.",
         EXAMINATION: 'People live here',
         SOLVED: False,
         UP: '',
